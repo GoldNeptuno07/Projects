@@ -8,4 +8,4 @@ profile.
 - Data Analysis
 
 
-![Machine Learning & Deep Learning](utils\image.png)
+![Machine Learning & Deep Learning](utils/image.png)
