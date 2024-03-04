@@ -4,4 +4,4 @@ The following files are Data Analysis and Prediction task projects that I have d
 
 My Kaggle. https://www.kaggle.com/work/overview
 
-![kaggle](..\utils\kaggle.jpg)
+![kaggle](../utils/kaggle.jpg)
