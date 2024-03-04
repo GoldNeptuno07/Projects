@@ -2,4 +2,4 @@
 
 Projetcs using Keras and Tensorflow.
 
-![Tensorflow](..\utils\tensorflow.jpg)
+![Tensorflow](../utils/tensorflow.jpg)
