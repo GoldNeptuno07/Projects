@@ -144,7 +144,7 @@ class Dense:
     def ReLu(self, Z):
         return tf.clip_by_value(Z, 0.0, float('inf'))
 
-    def ReLu_prime(self):
+    def ReLu_prime(self, *args):
         return tf.cast(self.A > 0.0, dtype=tf.float32)
 
     def Softmax(self, Z):
@@ -153,14 +153,14 @@ class Dense:
         A = Z_T / tf.reduce_sum(Z_T, axis=1, keepdims=True)
         return tf.transpose(A)
 
-    def Softmax_prime(self):
-        return self.A * (1 - self.A)
-
+    def Softmax_prime(self, labels):
+        return self.A - tf.transpose(labels)
+        
     def Sigmoid(self, Z):
         A = 1 / (1 + tf.math.exp(-Z))
         return A
 
-    def Sigmoid_prime(self):
+    def Sigmoid_prime(self, *args):
         return self.A * (1 - self.A)
 
 
@@ -213,11 +213,11 @@ class Sequential:
         return output
 
     def backpropagation(self, y, A):
-        dL = A - tf.transpose(y)
+        dL = tf.cast(1.0, dtype= tf.float32)
         m = len(y)
         for layer in self.architecture[::-1]:
             # Compute the gradients
-            dZ = dL * layer.activation_derivative()
+            dZ = dL * layer.activation_derivative(y)
             dW = dZ @ tf.transpose(layer.X) * 1 / m
             dB = tf.reduce_sum(dZ, axis=1, keepdims=True) * 1 / m
             # Error for Next Layer
@@ -238,7 +238,7 @@ class Sequential:
                 output = self.feedforward(x_rand)
                 self.backpropagation(y_rand, output)
 
-            if epoch % 10 == 0:
+            if epoch % 1 == 0:
                 score = self.score(x_const, y_const)
                 y_pred = self.feedforward(x_const)
                 loss = self.cross_entropy(y_const, y_pred)
